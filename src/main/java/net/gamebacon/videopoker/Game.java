@@ -9,10 +9,14 @@ import java.util.TreeSet;
 
 class Game {
 
+	private final int DEAL_DELAY_MILLIS = 120;
+	private final int POST_DEAL_DELAY_MILLIS = 500;
+	public static final int STARTING_BALANCE = 100;
+
 	private Deck deck;
 	String currentHand;
-	static int handValue;
-	static boolean gameover = true;
+	int handValue;
+	boolean gameover = true;
 
 	final String[] handName = {
 	"Royal flush",
@@ -39,12 +43,12 @@ class Game {
 			for(int j = 0; j < 5; j++)
 				if(homo || !VideoPoker.cardContainer[j].isSelected())
 					VideoPoker.cardContainer[j].resetFields();
-			try { Thread.sleep(400); } catch (Exception ex) {}
+			try { Thread.sleep(POST_DEAL_DELAY_MILLIS); } catch (Exception ex) {}
 
 			for(int i = 0; i < 5; i++) {
 				if(homo || !VideoPoker.cardContainer[i].isSelected()) {
 					VideoPoker.cardContainer[i].newCard(deck.draw());
-					try { Thread.sleep(150); } catch (Exception ex) {}
+					try { Thread.sleep(DEAL_DELAY_MILLIS); } catch (Exception ex) {}
 				} else
 					VideoPoker.cardContainer[i].toggleSelect(false);
 			}
