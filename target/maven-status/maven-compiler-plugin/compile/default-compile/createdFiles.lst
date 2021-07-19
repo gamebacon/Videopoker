@@ -3,13 +3,14 @@ net/gamebacon/videopoker/DataBase.class
 net/gamebacon/videopoker/CardContainer.class
 net/gamebacon/videopoker/VideoPoker$UpButtonActionListener.class
 net/gamebacon/videopoker/VideoPoker$3.class
+net/gamebacon/videopoker/builder/JBuilder.class
 net/gamebacon/videopoker/VideoPoker$ButtonActionListener.class
 net/gamebacon/videopoker/Board.class
 net/gamebacon/videopoker/VideoPoker$DownButtonActionListener.class
 net/gamebacon/videopoker/Save.class
 net/gamebacon/videopoker/util/Sound.class
+net/gamebacon/videopoker/AboutPanel.class
 net/gamebacon/videopoker/util/Util.class
-net/gamebacon/videopoker/util/Test.class
 net/gamebacon/videopoker/Game.class
 net/gamebacon/videopoker/VideoPoker.class
 net/gamebacon/videopoker/Card.class

@@ -2,7 +2,7 @@ package net.gamebacon.videopoker;
 
 import net.gamebacon.videopoker.util.CardManager;
 
-class Card implements Comparable<Card> {
+public class Card implements Comparable<Card> {
 
 	private final int suit;
 	private final int value;
@@ -33,14 +33,19 @@ class Card implements Comparable<Card> {
 		Card c = (Card) o;
 		return getValue() == c.getValue() && getSuit() == c.getSuit();
 	}
-	
+
 	@Override
 	public String toString() {
+		return String.format("%s%c", CardManager.stringValues[value], CardManager.suitWords[suit].charAt(0));
+	}
+
+	
+	public String toWordString() {
 	    return String.format("%s OF %s", CardManager.valueWords[value], CardManager.suitWords[suit]);
 		//return "" + suit + value + "";
 	}
 	public String cardImageFileName() {
-	    return String.format("%s%c", CardManager.stringValues[value], CardManager.suitWords[suit].charAt(0));
+	    return String.format("%s%c.png", CardManager.stringValues[value], CardManager.suitWords[suit].charAt(0));
 	}
 	
 }

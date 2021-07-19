@@ -66,7 +66,7 @@ class Game {
 	private Card[] getHand() {
 		Card[] output = new Card[5];
 		for(int i = 0; i < 5; i++) {
-			output[i] = VideoPoker.cardContainer[i].card;
+			output[i] = VideoPoker.cardContainer[i].getCard();
 		}	
 		return output;
 	}

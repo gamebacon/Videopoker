@@ -9,19 +9,17 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 
-class CardContainer extends JPanel implements MouseListener {
+public class CardContainer extends JPanel implements MouseListener {
 
 	private final VideoPoker main;
 	private final JLabel cardImageLabel;
 	private final JLabel topLabel;
 	private final JLabel bottomLabel;
 
-	private final Dimension cardSize = new Dimension(140, 220);
-	private final Dimension arrowSize = new Dimension(15, 15);
 	private final Font heldFont = new Font("VCR OSD Mono", Font.BOLD, 30);
 
 	private boolean isSelected;
-	Card card;
+	private Card card;
 
 	public CardContainer(VideoPoker main) {
 		this.main = main;
@@ -45,8 +43,8 @@ class CardContainer extends JPanel implements MouseListener {
 		topLabel.setAlignmentX(cardImageLabel.CENTER_ALIGNMENT);
 		topLabel.setBackground(Util.mainColor);
 
-		setImage("deck2/back.png", cardImageLabel, cardSize);
-		setImage("arrow.png", topLabel, arrowSize);
+		cardImageLabel.setIcon(Util.getCardIcon(card));
+		topLabel.setIcon(Util.getArrowImage());
 
 		setLayout(new BoxLayout(this, 1));
 
@@ -85,7 +83,7 @@ class CardContainer extends JPanel implements MouseListener {
 				if(false)
 				new Thread(new Runnable(){
 					public void run() {
-						playArrowIdleAnimation();		
+						playArrowIdleAnimation();
 					}
 				}).start();
 			}
@@ -100,26 +98,15 @@ class CardContainer extends JPanel implements MouseListener {
 
 	void newCard(Card card) {
 		this.card = card;
-		setImage("deck2/" + card.cardImageFileName() + ".png", cardImageLabel, cardSize);
-		setToolTipText(card.toString());
+		cardImageLabel.setIcon(Util.getCardIcon(card));
+		cardImageLabel.setToolTipText(card.toWordString());
 		Sound.playSound("deal", 3);
 	}
 
 
-	void setImage(String path, JLabel destination, Dimension size) {
-		try {                
-			path = "/images/" + path;
-            URL url = getClass().getResource(path);
-			destination.setIcon(new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(size.width, size.height, Image.SCALE_DEFAULT)));
-		} catch (Exception ex) {
-			System.out.println("no wok loading " + path);
-			ex.printStackTrace();
-		}
-	}
-
 	void resetFields() {
 		isSelected = false;
-		setImage("deck2/back.png", cardImageLabel, cardSize);
+		cardImageLabel.setIcon(Util.getCardIcon(null));
 		bottomLabel.setVisible(false);
 		topLabel.setVisible(false);
 		card = null;
@@ -138,5 +125,9 @@ class CardContainer extends JPanel implements MouseListener {
 	
 	boolean isSelected(){
 		return isSelected;
+	}
+
+	public Card getCard() {
+		return card;
 	}
 }

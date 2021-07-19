@@ -1,22 +1,25 @@
 package net.gamebacon.videopoker;
 
+import net.gamebacon.videopoker.builder.JBuilder;
 import net.gamebacon.videopoker.util.Sound;
 import net.gamebacon.videopoker.util.Util;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.sql.SQLException;
 
 public class VideoPoker extends JFrame implements KeyListener {
+
+	private final JButton aboutButton;
 	private final JButton actionButton;
 	private final JButton increaseButton;
 	private final JButton decreaseButton;
 
 	private final Font font = new Font("VCR OSD Mono", Font.BOLD, 15);
 	private final Font biggerFont = new Font("VCR OSD Mono", Font.BOLD, 35);
+
+	private CardLayout cardLayout = new CardLayout();
 
 	private final JLabel infoText;
 
@@ -39,16 +42,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 	private final Save save;
 
 	public VideoPoker()	{
-		//image-icons not working with macOS?
-		/*
-		try {
-		    Image image = ImageIO.read(new File("src/main/resources/images/icon.jpg"));
-		    setIconImage(image);
-		} catch (IOException e) {
-			System.out.println("no wok");
-			e.printStackTrace();
-		}
-		 */
+
 
 		save = new Save();
 		try {
@@ -61,6 +55,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 			balance = Game.STARTING_BALANCE;
 		}
 
+		setLayout(cardLayout);
 		setSize(800,700);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -78,25 +73,38 @@ public class VideoPoker extends JFrame implements KeyListener {
 			System.out.println("Error with font");
 		}
 
+		aboutButton = (JButton) JBuilder.init(JButton.class)
+				.text("Info")
+				.actionListener(e -> System.out.println("info"))
+				.preferredSize(new Dimension(100, 50))
+				.font(font)
+				.keyListener(this)
+				.bulid();
 
-		actionButton = new JButton("Deal");
-		actionButton.addActionListener(new ButtonActionListener());	
-		actionButton.setPreferredSize(new Dimension(100, 50));
-		actionButton.setFont(font);	;
-		actionButton.addKeyListener(this);	;
+		actionButton = (JButton) JBuilder.init(JButton.class)
+				.text("Deal")
+				.actionListener(new ButtonActionListener())
+				.preferredSize(new Dimension(100, 50))
+				.font(font)
+				.keyListener(this)
+				.bulid();
 
-		increaseButton = new JButton("^");
-		increaseButton.addActionListener(new UpButtonActionListener());	
-		increaseButton.setPreferredSize(new Dimension(30, 30));
-		increaseButton.addKeyListener(this);	;
-		increaseButton.setOpaque(true);
-		//increaseButton.setIcon(new ImageIcon("images/arrow.png"));
-		
-		decreaseButton = new JButton("v");
-		decreaseButton.addActionListener(new DownButtonActionListener());	
-		decreaseButton.setPreferredSize(new Dimension(30, 30));
-		decreaseButton.addKeyListener(this);	;
-		
+		increaseButton = (JButton) JBuilder.init(JButton.class)
+				.text("^")
+				.actionListener(new UpButtonActionListener())
+				.preferredSize(new Dimension(30, 30))
+				.keyListener(this)
+                .opaque(true)
+				.bulid();
+
+		decreaseButton = (JButton) JBuilder.init(JButton.class)
+				.text("v")
+				.actionListener(new DownButtonActionListener())
+				.preferredSize(new Dimension(30, 30))
+				.keyListener(this)
+				.opaque(true)
+				.bulid();
+
 		board = new Board(this);
 
 		JPanel boardPanel = new JPanel();
@@ -121,23 +129,34 @@ public class VideoPoker extends JFrame implements KeyListener {
 		betButtonPanel.add(increaseButton);
 		betButtonPanel.add(decreaseButton);
 
-		betText = new JTextField("1", 4);
-		betText.setEditable(false);
-		betText.setFont(font);
-		betText.setForeground(Color.black);
-		betText.setBackground(Color.white);
+		betText = (JTextField) JBuilder.init(JTextField.class)
+                .text("1")
+				.columns(4)
+				.editable(false)
+				.foreground(Color.black)
+				.background(Color.white)
+                .font(font)
+				.bulid();
 
-		winAmountText = new JTextField("0", 4);
-		winAmountText.setEditable(false);
-		winAmountText.setFont(font);
-		winAmountText.setForeground(Color.black);
-		winAmountText.setBackground(Color.white);
+		winAmountText = (JTextField) JBuilder.init(JTextField.class)
+				.text("0")
+				.columns(4)
+				.editable(false)
+				.foreground(Color.black)
+				.background(Color.white)
+				.font(font)
+				.bulid();
 
-		balanceText = new JTextField(Integer.toString(balance), 4);
-		balanceText.setEditable(false);
-		balanceText.setFont(font);
-		balanceText.setForeground(Color.black);
-		balanceText.setBackground(Color.white);
+		balanceText = (JTextField) JBuilder.init(JTextField.class)
+				.text(Integer.toString(balance))
+				.columns(4)
+				.editable(false)
+				.foreground(Color.black)
+				.background(Color.white)
+				.font(font)
+				.bulid();
+
+
 
 		Object[][] table = {
 			{new JLabel("Win"), winAmountText },
@@ -155,6 +174,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setBackground(Util.redColor);
+		bottomPanel.add(aboutButton);
 		bottomPanel.add(actionButton);
 		bottomPanel.add(betButtonPanel);
 		bottomPanel.add(numberPanel);
@@ -165,20 +185,24 @@ public class VideoPoker extends JFrame implements KeyListener {
 		mainPanel.setLayout(new BoxLayout(mainPanel, 1));
 		mainPanel.add(boardPanel);//topPanel);
 		mainPanel.add(cardPanel);//)middlePanel);
-		mainPanel.add(Box.createVerticalStrut(20));
 		mainPanel.add(bottomPanel);
 		mainPanel.addKeyListener(this);
 		mainPanel.setBackground(Util.mainFrameColor);
 		mainPanel.setBorder(BorderFactory.createLineBorder(Util.mainFrameColor, 9, true));
 
+
 		add(mainPanel);
+		add(new AboutPanel());
+
 
 
 		//get the icon image
-		Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/icon.jpg"));
+		Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/icon.png"));
 
 		try {
 		    Taskbar.getTaskbar().setIconImage(image); //set the image for unsupported OS
+			Taskbar.getTaskbar().setMenu(new PopupMenu("VideoPoker"));
+
 		} catch (UnsupportedOperationException ex) {
 		    setIconImage(image); //if not working, set with default approach
 		}
@@ -305,8 +329,8 @@ public class VideoPoker extends JFrame implements KeyListener {
 			}
 		})).start();
 	}
-	
-	
+
+
 	class ButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			if(homo) {

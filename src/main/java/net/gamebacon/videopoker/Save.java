@@ -35,12 +35,7 @@ class Save {
 	public Save() {
 		s = new Saves();
 
-		try {
-			file.mkdirs();
-			file.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	int load() {
