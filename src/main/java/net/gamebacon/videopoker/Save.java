@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 class Save {
 	Saves s;
-	private final String path = "~/Library/Application Support/Videopoker/saves.ser";
+	private final String path = "";
 	private final File file = new File(path);
 	private final DataBase dataBase = new DataBase();
 
