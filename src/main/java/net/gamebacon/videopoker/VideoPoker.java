@@ -27,7 +27,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 	private final JTextField winAmountText;
 	static JTextField balanceText;
 
-	volatile boolean homo = true;
+	volatile boolean yolo = true;
 
 	int betLevel = 1;
 	int winAmount = 0;
@@ -64,9 +64,10 @@ public class VideoPoker extends JFrame implements KeyListener {
 		addKeyListener(this);	
 		setFocusable(true);
 
+
 		try {
-			GraphicsEnvironment homo = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			homo.registerFont(Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/pixelfont.ttf")));
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/pixelfont.ttf")));
 			//System.out.println(Arrays.toString(homo.getAvailableFontFamilyNames()).toString());
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -76,23 +77,23 @@ public class VideoPoker extends JFrame implements KeyListener {
 		aboutButton = (JButton) JBuilder.init(JButton.class)
 				.text("Info")
 				.actionListener(e -> System.out.println("info"))
-				.preferredSize(new Dimension(100, 50))
-				.font(font)
+				.preferredSize(new Dimension(250, 50))
+				.font(biggerFont)
 				.keyListener(this)
 				.bulid();
 
 		actionButton = (JButton) JBuilder.init(JButton.class)
 				.text("Deal")
 				.actionListener(new ButtonActionListener())
-				.preferredSize(new Dimension(100, 50))
-				.font(font)
+				.preferredSize(new Dimension(250, 50))
+				.font(biggerFont)
 				.keyListener(this)
 				.bulid();
 
 		increaseButton = (JButton) JBuilder.init(JButton.class)
 				.text("^")
 				.actionListener(new UpButtonActionListener())
-				.preferredSize(new Dimension(30, 30))
+				//.preferredSize(new Dimension(50, 50))
 				.keyListener(this)
                 .opaque(true)
 				.bulid();
@@ -100,7 +101,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 		decreaseButton = (JButton) JBuilder.init(JButton.class)
 				.text("v")
 				.actionListener(new DownButtonActionListener())
-				.preferredSize(new Dimension(30, 30))
+				//.preferredSize(new Dimension(50, 50))
 				.keyListener(this)
 				.opaque(true)
 				.bulid();
@@ -166,14 +167,16 @@ public class VideoPoker extends JFrame implements KeyListener {
 
 		JPanel numberPanel = new JPanel();
 		numberPanel.setLayout(new GridLayout(3, 2, 5, 5));
-		numberPanel.setBackground(Util.greenColor);
+		numberPanel.setBackground(Util.mainColor);
 
-		for(int i = 0; i < 3; i++) 
-			for(int j = 0; j < 2; j++) 
+		for(int i = 0; i < 3; i++) {
+			for (int j = 0; j < 2; j++) {
 				numberPanel.add((JComponent) table[i][j]);
+			}
+		}
 
 		JPanel bottomPanel = new JPanel();
-		bottomPanel.setBackground(Util.redColor);
+		bottomPanel.setBackground(Util.mainColor);
 		bottomPanel.add(aboutButton);
 		bottomPanel.add(actionButton);
 		bottomPanel.add(betButtonPanel);
@@ -315,25 +318,25 @@ public class VideoPoker extends JFrame implements KeyListener {
 
 
 	private void action() {
-		homo = false;
-		new Thread((new Runnable(){
-			public void run() {
-				if(game != null)
-					finishGame();
-				else if(balance >= getBet(betLevel)) {
-					board.reset();
-					startGame();
-				} else
-					balanceText.setForeground(Color.red);
-				homo = true;
+		yolo = false;
+		new Thread((() -> {
+			if(game != null) {
+				finishGame();
+			} else if(balance >= getBet(betLevel)) {
+				board.reset();
+				startGame();
+			} else {
+				balanceText.setForeground(Color.red);
 			}
+
+			yolo = true;
 		})).start();
 	}
 
 
 	class ButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			if(homo) {
+			if(yolo) {
 				action();
 				Sound.playSound("click", 1);
 			}
@@ -356,12 +359,6 @@ public class VideoPoker extends JFrame implements KeyListener {
 	}
 
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run() {
-				VideoPoker videopoker = new VideoPoker();
-			}
-		});
-	}
+
 }
 

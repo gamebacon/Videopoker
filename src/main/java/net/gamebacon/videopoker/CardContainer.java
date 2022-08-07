@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 
 public class CardContainer extends JPanel implements MouseListener {
 
@@ -31,7 +30,7 @@ public class CardContainer extends JPanel implements MouseListener {
 
 		bottomLabel = new JLabel("HELD");
 		bottomLabel.setFont(heldFont);
-		bottomLabel.setForeground(Color.WHITE);
+		bottomLabel.setForeground(Color.BLACK);
 		bottomLabel.setOpaque(true);
 		bottomLabel.setVisible(false);
 		bottomLabel.setAlignmentX(cardImageLabel.CENTER_ALIGNMENT);
@@ -56,6 +55,7 @@ public class CardContainer extends JPanel implements MouseListener {
 		add(Box.createVerticalStrut(10));
 		add(bottomLabel);
 
+		setPreferredSize(new Dimension(800, 450));
 
 		setBackground(Util.mainColor);
 		//setOpaque(true);

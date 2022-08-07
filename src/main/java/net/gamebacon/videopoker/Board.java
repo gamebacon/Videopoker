@@ -10,7 +10,7 @@ import java.awt.Color;
 class Board extends JPanel {
 
 	private final VideoPoker main;
-	private final Font font = new Font("VCR OSD Mono", Font.BOLD, 18);
+	private final Font font = new Font("VCR OSD Mono", Font.BOLD, 22);
 
 
 	private final JPanel[] sections = new JPanel[6];
@@ -55,14 +55,14 @@ class Board extends JPanel {
 			}
 			add(sections[i]);
 		}
-		sections[1].setBackground(Color.red);
+		sections[1].setBackground(Util.boardSelectColor);
 		setBackground(Util.brightYellow);
 		setBorder(BorderFactory.createLineBorder(Util.brightYellow, 3));
 	}
 
 	void switchBettingLevel(int lvl) {
 		sections[lastBetLevel].setBackground(Util.panelColor);
-		sections[lvl].setBackground(Color.red);
+		sections[lvl].setBackground(Util.boardSelectColor);
 		lastBetLevel = lvl;
 	}
 
