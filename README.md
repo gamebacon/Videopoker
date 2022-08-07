@@ -1,5 +1,5 @@
-# This is a Java GUI Swing app with the video poker game.
+# This is a Java GUI Swing app featuring the video poker game.
 
 <div style="margin: auto">
-<img src="src/main/resources/images/demo.png">
+<img src="src/main/resources/images/demo.png" alt"demo picture">
 </div>
