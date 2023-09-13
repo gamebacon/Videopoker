@@ -177,7 +177,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setBackground(Util.mainColor);
-		bottomPanel.add(aboutButton);
+		// bottomPanel.add(aboutButton);
 		bottomPanel.add(actionButton);
 		bottomPanel.add(betButtonPanel);
 		bottomPanel.add(numberPanel);
@@ -298,7 +298,7 @@ public class VideoPoker extends JFrame implements KeyListener {
 		balanceText.setForeground(Color.black);
 		game = new Game();
 		infoText.setText(game.currentHand);
-		actionButton.setText("Finsih");
+		actionButton.setText("Deal");
 	}
 
 	synchronized void finishGame() {
