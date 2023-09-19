@@ -199,16 +199,8 @@ public class VideoPoker extends JFrame implements KeyListener {
 
 
 
-		//get the icon image
-		Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/icon.png"));
+		trySetIconImage();
 
-		try {
-		    Taskbar.getTaskbar().setIconImage(image); //set the image for unsupported OS
-			Taskbar.getTaskbar().setMenu(new PopupMenu("VideoPoker"));
-
-		} catch (UnsupportedOperationException ex) {
-		    setIconImage(image); //if not working, set with default approach
-		}
 
 		addWindowListener(new WindowAdapter() {
 		    @Override
@@ -224,6 +216,26 @@ public class VideoPoker extends JFrame implements KeyListener {
 
 
 		setVisible(true);
+	}
+
+	private void trySetIconImage() {
+		//get the icon image
+		Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/icon.png"));
+
+		try {
+			Class.forName("java.awt.Taskbar");
+		} catch (ClassNotFoundException e) {
+			setIconImage(image); //if not working, set with default approach
+			return;
+        }
+
+		// only supported for version >= 9 ?
+        try {
+			Taskbar.getTaskbar().setIconImage(image); //set the image for unsupported OS
+			Taskbar.getTaskbar().setMenu(new PopupMenu("VideoPoker"));
+		} catch (UnsupportedOperationException ex) {
+			setIconImage(image); //if not working, set with default approach
+		}
 	}
 
 	public void keyReleased(KeyEvent keyEvent) {
